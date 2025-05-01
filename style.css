@@ -1,0 +1,83 @@
+body {
+    display: flex;
+    justify-content: center; /* Centraliza horizontalmente */
+    align-items: center; /* Centraliza verticalmente */
+    height: 100vh; /* Ocupa a altura total da viewport */
+    margin: 0; /* Remove margens padrão do body */
+  }
+
+.input-group {
+  width: 200px;
+  text-align: center;
+  padding: 5px;
+}
+
+.container {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  background-color: rgb(45, 114, 23);
+  width: 1000px;
+  height: 500px;
+  
+}
+.input-group-text {
+  font-weight: bold;
+  font-size: 20px;
+}
+.form-control {
+  font-weight: bold;
+  font-size: 16px;
+  text-align: center;
+}
+.infor {
+  color: white;
+  font-size: 16px;
+}
+
+.form-check-label {
+  font-size: 13px;
+}
+
+.AB1 {
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-image: url("/img/img\ a1\ b1.png");
+  justify-content: center;
+}
+
+.B2C {
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-image: url("/img/image\ b2\ a\ c.png");
+  justify-content: center;
+}
+
+.CEF {
+  background-repeat: no-repeat;
+
+  background-size: contain;
+  background-image: url("/img/de\ c\ ef.png");
+  justify-content: center;
+}
+
+.modal-content {
+  height: 500px;
+  width: 500px;
+  margin-left: auto; /* aqui */
+  margin-right: auto; /* e aqui */
+}
+
+
+
+
+a {
+  font-size: 15px;
+  font-weight: bolder;
+  text-decoration: none;
+  color: white;
+}
+
+a:hover {
+color: black;
+}
