@@ -53,11 +53,19 @@ body {
   justify-content: center;
 }
 
+.C{
+  background-repeat: no-repeat;
+
+  background-size: contain;
+  background-image: url("/img/C.png");
+  justify-content: center;
+}
+
 .CEF {
   background-repeat: no-repeat;
 
   background-size: contain;
-  background-image: url("/img/de\ c\ ef.png");
+  background-image: url("/img/C\ E\ D.png");
   justify-content: center;
 }
 
