@@ -65,91 +65,107 @@
               placeholder="120/220..."
             /><span class="input-group-text">Tensão</span>
           </div>
+          <div class="input-group">
+            <input
+              readonly
+              id="correnteProjeto"
+              aria-label="First name "
+              class="form-control entrada"
+            /><label class="input-group-text">Corrente Projeto</label>
+          </div>
         </div>
-        <select
-          class="form-select form-select-sm"
+        <div class="row">
+          <label >Condutores Carregados</label>
+        <select  class="form-select-sm form-select entrada"  onchange="condutores_Carregados(this.value)" id="selectCondutores" aria-label=".form-select-sm example">
+          <option  value="2">Condutores Carregados 2</option>
+          <option  value="3"> Condutores Carregados 3</option>
+        </select>
+        <label>Método de instalação</label>
+        <select size="2"
+          class="form-select form-select-sm entrada"
           aria-label=".form-select-sm example"
+          id="metodoInstalacao" onchange="metodo_Instalacao(this.value)"
         >
-          <option selected>Escolha o Método de instalação</option>
           <option value="A1">
-            1 A1 Condutores isolados ou cabos unipolares em eletroduto de seção
+            (1) A1 Condutores isolados ou cabos unipolares em eletroduto de seção
             circular embutido em parede termicamente isolante2
           </option>
           <option value="A2">
-            2 A2 Cabo multipolar em eletroduto de seção circular embutido em
+            (2) A2 Cabo multipolar em eletroduto de seção circular embutido em
             parede termicamente isolante
           </option>
           <option value="B1">
-            3 B1 Condutores isolados ou cabos unipolares em eletroduto aparente
+            (3) B1 Condutores isolados ou cabos unipolares em eletroduto aparente
             de seção circular sobre parede ou espaçado desta menos de 0,3 vez o
             diâmetro do eletroduto
           </option>
           <option value="B2">
-            4 B2 Cabo multipolar em eletroduto aparente de seção circular sobre
+            (4)  B2 Cabo multipolar em eletroduto aparente de seção circular sobre
             parede ou espaçado desta menos de 0,3 vez o diâmetro do eletroduto
           </option>
 
           <option value="B1">
-            5 B1 Condutores isolados ou cabos unipolares em eletroduto aparente
+            (5)  B1 Condutores isolados ou cabos unipolares em eletroduto aparente
             de seção não-circular sobre parede
           </option>
           <option value="B2">
-            6 B2 Cabo multipolar em eletroduto aparente de seção não-circular
+            (6) B2 Cabo multipolar em eletroduto aparente de seção não-circular
             sobre parede
           </option>
           <option value="B1">
-            7 B1 Condutores isolados ou cabos unipolares em eletroduto de seção
+            (7) B1 Condutores isolados ou cabos unipolares em eletroduto de seção
             circular embutido em alvenaria
           </option>
           <option value="B2">
-            8 B2 Cabo multipolar em eletroduto de seção circular embutido em
+            (8) B2 Cabo multipolar em eletroduto de seção circular embutido em
             alvenaria
           </option>
           <option value="C">
-            11 C Cabos unipolares ou cabo multipolar sobre
+            (11) C Cabos unipolares ou cabo multipolar sobre
             parede ou espaçado desta menos de 0,3 vez
             o diâmetro do cabo
           </option>
           <option value="C">
-            11A C Cabos unipolares ou cabo multipolar fixado
+            (11a) C Cabos unipolares ou cabo multipolar fixado
             diretamente no teto
           </option>
           <option value="C">
-           11B C Cabos unipolares ou cabo multipolar afastado
+           (11b) C Cabos unipolares ou cabo multipolar afastado
            do teto mais de 0,3 vez o diâmetro do cabo
           </option>
           <option value="C">
-            12 C Cabos unipolares ou cabo multipolar em
+            (12) C Cabos unipolares ou cabo multipolar em
             bandeja não-perfurada, perfilado ou
             prateleira
           </option>
           <option value="C">
-            52 Cabos unipolares ou cabo multipolar
+            (52) C Cabos unipolares ou cabo multipolar
             embutido(s) diretamente em alvenaria sem
             proteção mecânica adicional
           </option>
           <option value="C">
-            53 Cabos unipolares ou cabo multipolar
+            (53) C Cabos unipolares ou cabo multipolar
             embutido(s) diretamente em alvenaria com
             proteção mecânica adicional
           </option>
           <option value="D">
-            61 D Cabo multipolar em eletroduto(de seção
+            (61) D Cabo multipolar em eletroduto(de seção
             circular ou não) ou em canaleta não-ventilada
             enterrado(a)
           </option>
           <option value="D">
-            61A D Cabos unipolares em eletroduto( de seção
+            (61a) D Cabos unipolares em eletroduto( de seção
             não-circular ou não) ou em canaleta nãoventilada
             enterrado
           </option>
           <option value="D">
-            63 D Cabos unipolares ou cabo multipolar
+            (63) D Cabos unipolares ou cabo multipolar
             diretamente enterrado(s), com proteção
             mecânica adicional
           </option>
        
         </select>
+      </div>
 
         <div class="row">
           <a data-bs-toggle="modal" data-bs-target="#staticBackdrop" href="/"
@@ -168,15 +184,6 @@
         </div>
         <div class="row">
           <div class="input-group">
-            <input
-              class="form-control"
-              id="correntes"
-              type="number"
-              placeholder="Corrente"
-              aria-label="Corrent"
-              aria-describedby="button-addon2"
-              required
-            />
             <button
               class="btn btn-primary"
               onclick="capacidade_ConducaoCobre()"

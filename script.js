@@ -52,54 +52,23 @@
 
 //   }
 
-function metodo_Install() {
-  A1 =
-    "Condutores isolados ou cabos unipolares em eletroduto de seção circular embutido em parede termicamente isolante2)";
-  A2 =
-    "Cabo multipolar em eletroduto de seção circular embutido em parede termicamente isolante2)";
-
-  B1 =
-    "Condutores isolados ou cabos unipolares em eletroduto aparente de seção circular sobre parede ou espaçado desta menos de 0,3 vez o diâmetro do eletroduto";
-  B2 =
-    "Cabo multipolar em eletroduto aparente de seção circular sobre parede ou espaçado desta menos de 0,3 vez o diâmetro do eletroduto";
-
-  B21 =
-    "Condutores isolados ou cabos unipolares em eletroduto aparente de seção não-circular sobre parede";
-  B22 =
-    "Cabo multipolar em eletroduto aparente de seção não-circular sobre parede";
-
-  B31 =
-    "Condutores isolados ou cabos unipolares em eletroduto de seção circular embutido em alvenaria";
-  B32 = "Cabo multipolar em eletroduto de seção circular embutido em alvenaria";
-
-  C1 =
-    "Cabos unipolares ou cabo multipolar sobre parede ou espaçado desta menos de 0,3 vez o diâmetro do cabo";
-  C2 = "Cabos unipolares ou cabo multipolar fixado diretamente no teto";
-
-  if (A11 || A2) {
-    return A;
-  } else if (B1 || B2 || B21 || B22 || B31 || B32) {
-    return B;
-  } else if (C1 || C2) {
-    return C;
-  }
-}
-
 // apagar campo resultado
-window.onload = function reste() {
+window.onload = function reset() {
   document.getElementById("cabo").value = innerHTML = "";
   document.getElementById("disjuntor").value = innerHTML = "";
   document.getElementById("tensao").value = innerHTML = "";
   document.getElementById("watts").value = innerHTML = "";
   document.getElementById("quantidade").value = innerHTML = "";
+  document.getElementById("correnteProjeto").value = innerHTML = "";
 
   var inputAll = document.querySelectorAll(".entrada");
   for (var i = 0; i < inputAll.length; i++) {
-  inputAll[i].addEventListener("input", function () {
-    document.getElementById("cabo").value = innerHTML = "";
-    document.getElementById("disjuntor").value = innerHTML = "";
-  });
-}
+    inputAll[i].addEventListener("input", function () {
+      document.getElementById("cabo").value = innerHTML = "";
+      document.getElementById("disjuntor").value = innerHTML = "";
+      document.getElementById("correnteProjeto").value = innerHTML = "";
+    });
+  }
 };
 
 // function metodo_referencia() {
@@ -113,13 +82,34 @@ window.onload = function reste() {
 
 // }
 
-function corrente() {
+function FatorCorrecao() {
+  var agrupamento = 0.8;
+  var temperatura = 0.94;
+
+  var fatorCorrecao = agrupamento * temperatura;
+  //0.752
+  return fatorCorrecao;
+}
+
+function condutores_Carregados() {
+  var condutores = document.getElementById("selectCondutores");
+  return condutores.value;
+}
+
+function metodo_Instalacao() {
+  var metodos_Instalacao = document.getElementById("metodoInstalacao");
+  return metodos_Instalacao.value;
+}
+
+function correnteProjeto() {
   var tensao = document.getElementById("tensao").value;
   var watts = document.getElementById("watts").value;
   var quantidade = document.getElementById("quantidade").value;
 
   var correnteTotal = (watts * quantidade) / tensao;
-  console.log(correnteTotal.toFixed(2))
+
+  document.getElementById("correnteProjeto").value = innerHTML =
+    correnteTotal.toFixed(0) + " A";
   return correnteTotal;
 }
 
@@ -181,9 +171,6 @@ function capacidade_ConducaoCobre() {
     767, 679, 698, 618, 1012, 906, 827, 738, 1125, 996, 792, 652,
   ]; //Seções nominaiL 1000 mm2
 
-  on = true;
-  off = false;
-
   A12 = [
     7, 9, 11, 14.5, 19.5, 26, 34, 46, 61, 80, 99, 119, 151, 182, 210, 240, 273,
     321, 367, 438, 502, 578, 669, 767,
@@ -237,9 +224,10 @@ function capacidade_ConducaoCobre() {
     10, 12, 15, 18, 24, 31, 39, 52, 87, 86, 103, 122, 151, 179, 203, 230, 258,
     297, 336, 39, 4445, 506, 577, 652,
   ];
-  const correnteInicial = corrente();
-  if (A12 && off) {
-    const corrente = A12.find((element) => element >= correnteInicial); // Procurando dijuntor igual a corrente ou proximo valor superior
+  const correnteInicial = correnteProjeto() / FatorCorrecao();
+
+  if (metodo_Instalacao() == "A1" && condutores_Carregados() == 2) {
+    corrente = A12.find((element) => element >= correnteInicial); // Procurando dijuntor igual a corrente ou proximo valor superior
     if (secoesNominais0005.indexOf(corrente) === 0) {
       document.getElementById("disjuntor").value = innerHTML = corrente;
       return (document.getElementById("cabo").value = innerHTML = "cabo 0,5");
@@ -315,7 +303,7 @@ function capacidade_ConducaoCobre() {
     }
   }
 
-  if (A13 && off) {
+  if (metodo_Instalacao() == "A1" && condutores_Carregados() == 3) {
     const corrente = A13.find((element) => element >= correnteInicial); // Procurando dijuntor igual a corrente ou proximo valor superior
     if (secoesNominais0005.indexOf(corrente) === 1) {
       document.getElementById("disjuntor").value = innerHTML = corrente;
@@ -391,7 +379,7 @@ function capacidade_ConducaoCobre() {
       return (document.getElementById("cabo").value = innerHTML = "cabo 1000");
     }
   }
-  if (A22 && off) {
+  if (metodo_Instalacao() == "A2" && condutores_Carregados() == 2) {
     const corrente = A22.find((element) => element >= correnteInicial); // Procurando dijuntor igual a corrente ou proximo valor superior
     if (secoesNominais0005.indexOf(corrente) === 2) {
       document.getElementById("disjuntor").value = innerHTML = corrente;
@@ -468,7 +456,7 @@ function capacidade_ConducaoCobre() {
     }
   }
 
-  if (A23 && off) {
+  if (metodo_Instalacao() == "A2" && condutores_Carregados() == 3) {
     const corrente = A23.find((element) => element >= correnteInicial); // Procurando dijuntor igual a corrente ou proximo valor superior
     if (secoesNominais0005.indexOf(corrente) === 3) {
       document.getElementById("disjuntor").value = innerHTML = corrente;
@@ -544,7 +532,7 @@ function capacidade_ConducaoCobre() {
       return (document.getElementById("cabo").value = innerHTML = "cabo 1000");
     }
   }
-  if (B12 && on) {
+  if (metodo_Instalacao() == "B1" && condutores_Carregados() == 2) {
     const corrente = B12.find((element) => element >= correnteInicial); // Procurando dijuntor igual a corrente ou proximo valor superior
     if (secoesNominais0005.indexOf(corrente) === 4) {
       document.getElementById("disjuntor").value = innerHTML = corrente;
@@ -573,7 +561,7 @@ function capacidade_ConducaoCobre() {
     } else if (secoesNominais16.indexOf(corrente) === 4) {
       document.getElementById("disjuntor").value = innerHTML = corrente;
       return (document.getElementById("cabo").value = innerHTML = "cabo 16");
-    } else if (secoesNominais25.indexOf(corrente) === 3) {
+    } else if (secoesNominais25.indexOf(corrente) === 4) {
       document.getElementById("disjuntor").value = innerHTML = corrente;
       return (document.getElementById("cabo").value = innerHTML = "cabo 25");
     } else if (secoesNominais35.indexOf(corrente) === 4) {
@@ -582,7 +570,7 @@ function capacidade_ConducaoCobre() {
     } else if (secoesNominais50.indexOf(corrente) === 4) {
       document.getElementById("disjuntor").value = innerHTML = corrente;
       return (document.getElementById("cabo").value = innerHTML = "cabo 50");
-    } else if (secoesNominais70.indexOf(corrente) === 3) {
+    } else if (secoesNominais70.indexOf(corrente) === 4) {
       document.getElementById("disjuntor").value = innerHTML = corrente;
       return (document.getElementById("cabo").value = innerHTML = "cabo 70");
     } else if (secoesNominais95.indexOf(corrente) === 4) {
@@ -620,7 +608,7 @@ function capacidade_ConducaoCobre() {
       return (document.getElementById("cabo").value = innerHTML = "cabo 1000");
     }
   }
-  if (B13 && off) {
+  if (metodo_Instalacao() == "B1" && condutores_Carregados() == 3) {
     const corrente = B13.find((element) => element >= correnteInicial); // Procurando dijuntor igual a corrente ou proximo valor superior
     if (secoesNominais0005.indexOf(corrente) === 5) {
       document.getElementById("disjuntor").value = innerHTML = corrente;
@@ -696,7 +684,7 @@ function capacidade_ConducaoCobre() {
       return (document.getElementById("cabo").value = innerHTML = "cabo 1000");
     }
   }
-  if (B22 && off) {
+  if (metodo_Instalacao() == "B2" && condutores_Carregados() == 2) {
     const corrente = B22.find((element) => element >= correnteInicial); // Procurando dijuntor igual a corrente ou proximo valor superior
     if (secoesNominais0005.indexOf(corrente) === 6) {
       document.getElementById("disjuntor").value = innerHTML = corrente;
@@ -772,7 +760,8 @@ function capacidade_ConducaoCobre() {
       return (document.getElementById("cabo").value = innerHTML = "cabo 1000");
     }
   }
-  if (B23 && off) {
+  if (metodo_Instalacao() == "B2" && condutores_Carregados() == 3) {
+    console.log("correto")
     const corrente = B23.find((element) => element >= correnteInicial); // Procurando dijuntor igual a corrente ou proximo valor superior
     if (secoesNominais0005.indexOf(corrente) === 7) {
       document.getElementById("disjuntor").value = innerHTML = corrente;
@@ -849,7 +838,7 @@ function capacidade_ConducaoCobre() {
     }
   }
 
-  if (C2 && off) {
+  if (metodo_Instalacao() == "C" && condutores_Carregados() == 2) {
     const corrente = C2.find((element) => element >= correnteInicial); // Procurando dijuntor igual a corrente ou proximo valor superior
     if (secoesNominais0005.indexOf(corrente) === 8) {
       document.getElementById("disjuntor").value = innerHTML = corrente;
@@ -925,7 +914,7 @@ function capacidade_ConducaoCobre() {
       return (document.getElementById("cabo").value = innerHTML = "cabo 1000");
     }
   }
-  if (C3 && off) {
+  if (metodo_Instalacao() == "C" && condutores_Carregados() == 3) {
     const corrente = C3.find((element) => element >= correnteInicial); // Procurando dijuntor igual a corrente ou proximo valor superior
     if (secoesNominais0005.indexOf(corrente) === 9) {
       document.getElementById("disjuntor").value = innerHTML = corrente;
@@ -1001,7 +990,7 @@ function capacidade_ConducaoCobre() {
       return (document.getElementById("cabo").value = innerHTML = "cabo 1000");
     }
   }
-  if (D2 && off) {
+  if (metodo_Instalacao() == "D" && condutores_Carregados() == 2) {
     const corrente = D2.find((element) => element >= correnteInicial); // Procurando dijuntor igual a corrente ou proximo valor superior
     if (secoesNominais0005.indexOf(corrente) === 10) {
       document.getElementById("disjuntor").value = innerHTML = corrente;
@@ -1077,7 +1066,7 @@ function capacidade_ConducaoCobre() {
       return (document.getElementById("cabo").value = innerHTML = "cabo 1000");
     }
   }
-  if (D3 && off) {
+  if (metodo_Instalacao() == "D" && condutores_Carregados() == 3) {
     const corrente = D3.find((element) => element >= correnteInicial); // Procurando dijuntor igual a corrente ou proximo valor superior
     if (secoesNominais0005.indexOf(corrente) === 11) {
       document.getElementById("disjuntor").value = innerHTML = corrente;
@@ -1156,16 +1145,3 @@ function capacidade_ConducaoCobre() {
 }
 
 capacidade_ConducaoCobre();
-
-// function caracteristicaCondutor(){
-// A = 'Aluminium'
-// C = 'Cobre'
-
-// if(A){
-// var estruturaCabo  = A
-//   return estruturaCabo
-// }else if(C){
-//   var estruturaCabo = C
-// return estruturaCabo
-// }
-// }
