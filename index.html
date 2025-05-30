@@ -74,12 +74,23 @@
             /><label class="input-group-text">Corrente Projeto</label>
           </div>
         </div>
-        <div class="row">
-          <label >Condutores Carregados</label>
+        <div class="col">
+        <label >Tipo de Disposotivo
+          <select  class="form-select-sm form-select entrada"  onchange="tipo_dispositivo(this.value)" id="tipoDispositivo" aria-label=".form-select-sm example">
+            <option  value="outro">Outros</option>
+            <option  value="iluminacao"> Iluminação </option>
+            <option  value="tomada">Tomada</option>
+          </select>
+        </label>
+          <label >Condutores Carregados
         <select  class="form-select-sm form-select entrada"  onchange="condutores_Carregados(this.value)" id="selectCondutores" aria-label=".form-select-sm example">
           <option  value="2">Condutores Carregados 2</option>
           <option  value="3"> Condutores Carregados 3</option>
         </select>
+      </label>
+      </div>
+        <div class="row">
+          
         <label>Método de instalação</label>
         <select size="2"
           class="form-select form-select-sm entrada"
